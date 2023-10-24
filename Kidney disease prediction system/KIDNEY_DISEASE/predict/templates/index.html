@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kidney Disease Prediction</title>
+    <style>
+      body {
+          /* Set background image */
+          background-image: url('/static/images/kidney-1.jpg'); /* Replace 'background.jpg' with your image file path */
+          background-size: cover; /* Cover the entire viewport */
+          background-position: center; /* Center the image */
+          font-family: 'Arial', sans-serif; /* Set a default font family */
+          margin: 0; /* Remove default margin */
+          padding: 0; /* Remove default padding */
+      }
+
+      center {
+          text-align: center; /* Center-align the content */
+          padding: 50px; /* Add padding to center content */
+          color: #060606; /* Set text color to white */
+      }
+
+  </style>
+    <script>
+      function validateForm() {
+        var rbc = document.getElementById('id_rbc').value;
+        var sg = document.getElementById('id_sg').value;
+        var al = document.getElementById('id_al').value;
+        var su = document.getElementById('id_su').value;
+
+        // Validation for required fields
+        if (!rbc || !sg || !al || !su) {
+          alert("All fields are required. Please fill in all the values.");
+          return false;
+        }
+
+        // Validation for numeric values
+        if (isNaN(parseFloat(rbc)) || isNaN(parseFloat(sg)) || isNaN(parseFloat(al)) || isNaN(parseFloat(su))) {
+          alert("Invalid input. Please enter numeric values for relevant fields.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </head>
+  <body>
+    <center>
+    <h1>Kidney Disease Prediction</h1>
+    <form method="post" action="{% url 'predict:index' %}" onsubmit="return validateForm()">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="submit" value="Predict" />
+    </form>
+
+    <!-- Display the result if it is available -->
+    {% if result %}
+    <div>
+      <h2>Prediction Result:</h2>
+      <p>{{ result }}</p>
+    </div>
+    {% endif %}
+  </center>
+  </body>
+</html>
